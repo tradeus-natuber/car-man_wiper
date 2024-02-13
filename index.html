@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wiper</title>
+<html>
+    <head>
+        <style>
+            .center {
+                margin: auto;
+                width: 48%;
+                padding: 10px;
+                padding-bottom: 30px;
+                background-color: #18457b;
+                border-radius: 20px;
+            }
+            h2 {
+                text-align: center;
+                color: #fff;
+            }
+    
+            table {
+                width: 90%;
+                border-collapse: collapse;
+                margin: 0 auto;
+            }
+            th,
+            td {
+                border: 1px solid rgb(180, 180, 180);
+                padding: 10px;
+                text-align: center;
+                color: #000000;
+            }
+            th {
+                width: 8%;
+            }
+    
+            .center input {
+                width: 350px;
+                height: 32px;
+                font-size: 15px;
+                border: 0;
+                border-radius: 15px;
+                outline: none;
+                padding-left: 10px;
+                background-color: rgb(255, 255, 255);
+                margin-bottom: 20px;
+                display: block;
+                margin: 20px auto;
+                text-align: center;
+            }
+    
+            @media screen and (max-width: 720px) {
+                .center {
+                    width: 100%;
+                    padding: 10px;
+                }
+                table {
+                    width: 100%;
+                    max-width: 100%;
+                    overflow-x: auto;
+                }
+                th,
+                td {
+                    padding: 5px;
+                    white-space: nowrap;
+                }
+                .center input {
+                    width: 90%;
+                }
+            }
+    
+            /* 반응형 웹 디자인을 위한 추가 스타일 */
+            @media screen and (max-width: 480px) {
+                .center {
+                    width: 100%;
+                }
+                table {
+                    width: 100%;
+                    max-width: 100%;
+                    overflow-x: auto;
+                }
+                th,
+                td {
+                    padding: 5px;
+                    white-space: nowrap;
+                    font-size: 12px;
+                }
+                .center input {
+                    width: 90%;
+                    font-size: 12px;
+                }
+            }
+        </style>
+    </head>
+<body>
+
+<div class="center">
+    <h2 onclick="">내 차에 알맞는 와이퍼 찾기</h2>
+
+    <span style="margin: 0 auto;display: block;text-align: center;">
+    <button onclick="window.location.reload()">전체보기</button>    
+    <button onclick="filterFunction('현대')">현대</button>
+    <button onclick="filterFunction('기아')">기아</button>
+    <button onclick="filterFunction('르노 삼성')">르노 삼성</button>
+    <button onclick="filterFunction('쉐보레')">쉐보레</button>
+    <button onclick="filterFunction('쌍용')">쌍용</button>
+    <button onclick="filterFunction('볼보')">볼보</button>
+    <button onclick="filterFunction('제네시스')">제네시스</button>
+    <button onclick="filterFunction('타타대우')">타타대우</button>
+    <button onclick="filterFunction('테슬라')">테슬라</button>
+    <button onclick="filterFunction('아우디')">아우디</button>
+    <button onclick="filterFunction('BMW')">BMW</button>
+    <button onclick="filterFunction('벤츠')">벤츠</button>
+    <!-- 필요한 만큼 제조사 필터 버튼을 추가하세요 -->
+    </span>
+
+<span class="textbox">
+    <input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="차량명으로 검색">
+</span>
+<div style="overflow:scroll;height: 470px;width: 95%;background-color: #fff;margin: 0 auto;padding-top: 20px;">
+    <table id="wiperInfo">
+        <tr>
+            <th>제조사</th>
+            <th>연식</th>
+            <th>차량명</th>
+            <th>운전석</th>
+            <th>조수석</th>
+            <th style="width: 5%;">어댑터</th>
+        </tr>
+        <!-- 자바스크립트로 정보를 추가할 예정입니다 -->
+    </table>
+</div>
+</div>
+
+<script>
+    // 자동차 와이퍼 정보 데이터
+    var carWiperData = [
+// 현대 //
+{ manufacturer: '현대', year: '91-03', name: '갤로퍼', driverWiperSize: '400', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '05-11', name: '그랜저', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '현대', year: '11-16', name: '그랜저', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '16-22', name: '그랜저', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '22-현재', name: '그랜저', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '18-현재', name: '넥쏘', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '01-10', name: '라비타', driverWiperSize: '550', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '98-15', name: '마이티', driverWiperSize: '475', passengerWiperSize: '475', adapterNumber: '2'},
+{ manufacturer: '현대', year: '98-15', name: '마이티2', driverWiperSize: '475', passengerWiperSize: '475', adapterNumber: '2'},
+{ manufacturer: '현대', year: '98-15', name: '마이티QT', driverWiperSize: '475', passengerWiperSize: '475', adapterNumber: '2'},
+{ manufacturer: '현대', year: '98-15', name: '뉴마이티', driverWiperSize: '475', passengerWiperSize: '475', adapterNumber: '2'},
+{ manufacturer: '현대', year: '98-15', name: 'E-마이티', driverWiperSize: '475', passengerWiperSize: '475', adapterNumber: '2'},
+{ manufacturer: '현대', year: '01-11', name: '마이티', driverWiperSize: '550', passengerWiperSize: '400', adapterNumber: '3'},
+{ manufacturer: '현대', year: '15~', name: '올뉴마이티', driverWiperSize: '550', passengerWiperSize: '400', adapterNumber: '3'},
+{ manufacturer: '현대', year: '04-21', name: '메가트럭', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '2'},
+{ manufacturer: '현대', year: '04-21', name: '메가트럭와이드캡', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '2'},
+{ manufacturer: '현대', year: '13-19', name: '맥스크루즈', driverWiperSize: '650', passengerWiperSize: '350', adapterNumber: '2'},
+{ manufacturer: '현대', year: '19-현재', name: '베뉴', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '06-10', name: '베라크루즈', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '1'},
+{ manufacturer: '현대', year: '11-16', name: '베라크루즈', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '현대', year: '05-10', name: '베르나', driverWiperSize: '550', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '11-18', name: '벨로스터', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '11-18', name: '더 뉴 벨로스터', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '18-22', name: '더 올뉴 벨로스터', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '18-22', name: '벨로스터N', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '97-07', name: '스타렉스', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '현대', year: '07-21', name: '그랜드 스타렉스', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '현대', year: '07-21', name: '더 뉴 그랜드 스타렉스', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '현대', year: '21-현재', name: '스타리아', driverWiperSize: '700', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '05-12', name: '싼타페', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '05-12', name: '싼타페 더 스타일', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '12-18', name: '올 뉴 싼타페', driverWiperSize: '650', passengerWiperSize: '350', adapterNumber: '2'},
+{ manufacturer: '현대', year: '12-18', name: '싼타페 더 프라임', driverWiperSize: '650', passengerWiperSize: '350', adapterNumber: '2'},
+{ manufacturer: '현대', year: '18-23', name: '올뉴 싼타페', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '18-23', name: '더 뉴 싼타페', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '2024', name: '싼타페', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '04-09', name: '쏘나타', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '현대', year: '04-09', name: '쏘나타 트랜스폼', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '현대', year: '09-14', name: '쏘나타', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '09-14', name: '쏘나타 브릴리언트', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '09-14', name: '쏘나타 하이브리드', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '14-19', name: '쏘나타', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '14-19', name: '쏘나타 뉴라이즈', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '19-현재', name: '더 올뉴 쏘나타', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '19-현재', name: '쏘나타 N라인', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '15-현재', name: '쏠라티', driverWiperSize: '650', passengerWiperSize: '600', adapterNumber: '2'},
+{ manufacturer: '현대', year: '21-현재', name: '스타리아', driverWiperSize: '700', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '14-17', name: '아슬란', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '16-20', name: '아이오닉', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '16-20', name: '더 뉴 아이오닉', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '14-17', name: '아슬란', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '14-17', name: '아슬란', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '06-10', name: '아반떼', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '09-14', name: '아반떼', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '10-15', name: '아반떼 쿠페', driverWiperSize: '650', passengerWiperSize: '350', adapterNumber: '2'},
+{ manufacturer: '현대', year: '10-15', name: '더 뉴 아반떼', driverWiperSize: '650', passengerWiperSize: '350', adapterNumber: '2'},
+{ manufacturer: '현대', year: '15-20', name: '아반떼', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '15-20', name: '더 뉴 아반떼', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '20-현재', name: '올 뉴 아반떼', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '20-현재', name: '올 뉴 아반떼 N라인', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '09-10', name: '에쿠스', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '7'},
+{ manufacturer: '현대', year: '11-15', name: '에쿠스', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '현대', year: '10-19', name: '엑센트', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '13-현재', name: '엑시언트', driverWiperSize: '700', passengerWiperSize: '700', adapterNumber: '2'},
+{ manufacturer: '현대', year: '08-16', name: '제네시스 쿠페', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '현대', year: '98-현재', name: '카운티', driverWiperSize: '525', passengerWiperSize: '525', adapterNumber: '2'},
+{ manufacturer: '현대', year: '21-현재', name: '캐스퍼', driverWiperSize: '550', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '17-23', name: '코나', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '17-23', name: '더 뉴 코나', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '23-현재', name: '디올 뉴 코나', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '02-11', name: '클릭', driverWiperSize: '550', passengerWiperSize: '350', adapterNumber: '2'},
+{ manufacturer: '현대', year: '09-15', name: '투싼', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '09-16', name: '뉴 투싼', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '15-20', name: '올 뉴 투싼', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '20-현재', name: '디 올뉴 투싼', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '06-13', name: '트라고', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '2'},
+{ manufacturer: '현대', year: '19-현재', name: '파비스', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '2'},
+{ manufacturer: '현대', year: '04-현재', name: '뉴파워트럭', driverWiperSize: '500', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '현대', year: '19-', name: '펠리세이드', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '현대', year: '04-', name: '포터2', driverWiperSize: '500', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '04-', name: '포터2 EV', driverWiperSize: '500', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '04-', name: '더 뉴 포터2', driverWiperSize: '500', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '09-11', name: '올 뉴 i30', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '현대', year: '11-16', name: '더 뉴 i30', driverWiperSize: '650', passengerWiperSize: '350', adapterNumber: '2'},
+{ manufacturer: '현대', year: '16-', name: 'i30', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '16-', name: 'i30N', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '현대', year: '11-19', name: 'i40', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+// 현대 END //
+
+// 기아 //
+{ manufacturer: '기아', year: '07-', name: '그랜버드', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '2'},
+{ manufacturer: '기아', year: '16-', name: '니로', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '기아', year: '11-', name: '레이', driverWiperSize: '550', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '기아', year: '04-11', name: '뉴 모닝', driverWiperSize: '550', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '기아', year: '11-17', name: '올 뉴 모닝', driverWiperSize: '550', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '기아', year: '11-17', name: '더 뉴 모닝', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '기아', year: '17-', name: '올 뉴 모닝', driverWiperSize: '600', passengerWiperSize: '350', adapterNumber: '2'},
+{ manufacturer: '기아', year: '17-', name: '모닝 어반', driverWiperSize: '600', passengerWiperSize: '350', adapterNumber: '2'},
+{ manufacturer: '기아', year: '08-', name: '모하비', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '기아', year: '04-', name: '봉고', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '기아', year: '19-', name: '셀토스', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '기아', year: '17-', name: '스토닉', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '기아', year: '17-', name: '스팅어', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '기아', year: '10-15', name: '스포티지R', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '기아', year: '10-15', name: '더 뉴 스포티지R', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '기아', year: '15-21', name: '올 뉴 스포티지', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '기아', year: '15-21', name: '스포티지 더 볼드', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '기아', year: '21-', name: '디 올 뉴 스포티지', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '기아', year: '09-14', name: '쏘렌토R', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '기아', year: '09-14', name: '뉴 쏘렌토R', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '기아', year: '14-20', name: '올 뉴 쏘렌토', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '기아', year: '14-20', name: '더 뉴 쏘렌토', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '기아', year: '20-', name: '쏘렌토', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '기아', year: '08-', name: '쏘울', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '기아', year: '03-12', name: '오피러스', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '기아', year: '05-20', name: '그랜드카니발', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '기아', year: '05-20', name: '뉴카니발', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '기아', year: '05-20', name: '그랜드카니발R', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '기아', year: '05-20', name: '올 뉴 카니발', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '기아', year: '05-20', name: '더 뉴 카니발', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '기아', year: '20-', name: '카니발', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '기아', year: '06-13', name: '카렌스', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '기아', year: '13-18', name: '카렌스', driverWiperSize: '650', passengerWiperSize: '650(R)', adapterNumber: '2'},
+{ manufacturer: '기아', year: '08-17', name: '포르테(쿱)', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '기아', year: '05-11', name: '뉴프라이드', driverWiperSize: '550', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '기아', year: '05-11', name: '하이브리드', driverWiperSize: '550', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '기아', year: '11-17', name: '올뉴프라이드', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '기아', year: '21-', name: 'EV6', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '기아', year: '21-', name: 'EV9', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '기아', year: '12-18', name: 'K3', driverWiperSize: '650', passengerWiperSize: '350', adapterNumber: '2'},
+{ manufacturer: '기아', year: '12-18', name: 'K3쿱', driverWiperSize: '650', passengerWiperSize: '350', adapterNumber: '2'},
+{ manufacturer: '기아', year: '12-18', name: 'K3유로', driverWiperSize: '650', passengerWiperSize: '350', adapterNumber: '2'},
+{ manufacturer: '기아', year: '12-18', name: '더뉴K3', driverWiperSize: '650', passengerWiperSize: '350', adapterNumber: '2'},
+{ manufacturer: '기아', year: '18-', name: '올 뉴 K3 GT', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '기아', year: '18-', name: '더 뉴 K3', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '기아', year: '10-15', name: 'K5', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '기아', year: '15-19', name: 'K5', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '기아', year: '19-', name: 'K5', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '기아', year: '09-', name: 'K7', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '기아', year: '21-', name: 'K8', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '기아', year: '12-18.3', name: 'K9', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '기아', year: '18.4-', name: 'K9', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+// 기아 END //
+
+// 르노 삼성 //
+{ manufacturer: '르노', year: '18-', name: '마스터', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '2'},
+{ manufacturer: '르노', year: '20-22', name: '조에', driverWiperSize: '600', passengerWiperSize: '350', adapterNumber: '1'},
+{ manufacturer: '르노', year: '19-', name: '캡처', driverWiperSize: '650', passengerWiperSize: '350', adapterNumber: '1'},
+{ manufacturer: '르노', year: '18-19', name: '클리오', driverWiperSize: '650', passengerWiperSize: '350', adapterNumber: '10'},
+{ manufacturer: '르노', year: '17-', name: '트위지', driverWiperSize: '550(싱글암', passengerWiperSize: '', adapterNumber: '2'},
+{ manufacturer: '르노', year: '13-16', name: 'QM3', driverWiperSize: '650', passengerWiperSize: '350', adapterNumber: '10'},
+{ manufacturer: '르노', year: '16-20', name: 'QM3', driverWiperSize: '650', passengerWiperSize: '350', adapterNumber: '15'},
+{ manufacturer: '르노', year: '16-20', name: '뉴QM3', driverWiperSize: '650', passengerWiperSize: '350', adapterNumber: '15'},
+{ manufacturer: '르노', year: '07-14', name: 'QM5', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: '르노', year: '07-14', name: '뉴QM5', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: '르노', year: '14-16', name: 'QM5네오', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '르노', year: '16-17', name: 'QM6', driverWiperSize: '650', passengerWiperSize: '425', adapterNumber: '2'},
+{ manufacturer: '르노', year: '18-', name: 'QM6', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '르노', year: '18-', name: '더 뉴 QM6', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '르노', year: '02-11', name: 'SM3', driverWiperSize: '550', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '르노', year: '02-11', name: 'SM3 뉴 제너레이션', driverWiperSize: '550', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '르노', year: '09-', name: '뉴 SM3', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '르노', year: '09-', name: 'SM3 네오', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '르노', year: '09-', name: 'SM3ZE', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '르노', year: '05-10', name: 'SM5', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '르노', year: '05-10', name: '뉴SM5', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '르노', year: '05-10', name: 'SM5 뉴임프레션', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '르노', year: '10-19', name: '뉴SM5', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '르노', year: '10-19', name: '뉴 SM5플래티넘', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '르노', year: '10-19', name: 'SM5 노바', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '르노', year: '16-', name: 'SM6', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '르노', year: '04-11', name: 'SM7', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '르노', year: '04-11', name: 'SM7뉴아트', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '르노', year: '11-19', name: '올뉴SM7', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '르노', year: '11-19', name: 'SM7노바', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '르노', year: '20-', name: 'XM3', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+// 르노 삼성 END //
+
+// 쉐보레 //
+{ manufacturer: '쉐보레', year: '04-', name: '노부스', driverWiperSize: '700', passengerWiperSize: '700', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '91-21', name: '다마스', driverWiperSize: '400', passengerWiperSize: '350', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '08-11', name: '라세티 프리미어', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '12-', name: '레스타', driverWiperSize: '700', passengerWiperSize: '600', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '09-11', name: '마티즈', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '09-11', name: '마티즈 크리에이티브', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '11-16', name: '말리부', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '16-', name: '올뉴 말리부', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '16-', name: '더 뉴 말리부', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '08-10', name: '베리타스', driverWiperSize: '650', passengerWiperSize: '350', adapterNumber: '7'},
+{ manufacturer: '쉐보레', year: '17-', name: '볼트 EV', driverWiperSize: '650', passengerWiperSize: '650(R)', adapterNumber: '1'},
+{ manufacturer: '쉐보레', year: '', name: '볼트 EUV', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '1'},
+{ manufacturer: '쉐보레', year: '09-15', name: '스파크', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '15-23', name: '더 넥스트 스파크', driverWiperSize: '600', passengerWiperSize: '350', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '15-23', name: '더 뉴스파크', driverWiperSize: '600', passengerWiperSize: '350', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '13-16', name: '스파크EV', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '1'},
+{ manufacturer: '쉐보레', year: '11-19', name: '아베오', driverWiperSize: '650', passengerWiperSize: '350', adapterNumber: '7'},
+{ manufacturer: '쉐보레', year: '10-15', name: '알페온', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '11-18', name: '올란도', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '06-10', name: '윈스톰', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '17-', name: '이쿼녹스', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '12-19', name: '임팔라', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '05-11', name: '젠트라', driverWiperSize: '550', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '10-15', name: '카마로', driverWiperSize: '600', passengerWiperSize: '525', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '16-', name: '카마로', driverWiperSize: '550', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '11-18', name: '캡티바', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '19-', name: '콜로라도', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '11-16', name: '크루즈', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '11-16', name: '크루즈5', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '11-16', name: '어메이징 뉴크루즈', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '17-18', name: '크루즈', driverWiperSize: '700', passengerWiperSize: '600(R)', adapterNumber: '1'},
+{ manufacturer: '쉐보레', year: '17-18', name: '올뉴크루즈', driverWiperSize: '700', passengerWiperSize: '600(R)', adapterNumber: '1'},
+{ manufacturer: '쉐보레', year: '06-11', name: '토스카', driverWiperSize: '550', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '13-16', name: '트랙스', driverWiperSize: '600', passengerWiperSize: '350', adapterNumber: '1'},
+{ manufacturer: '쉐보레', year: '16-20', name: '더뉴트랙스', driverWiperSize: '600', passengerWiperSize: '350', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '23-24', name: '트랙스 크로스오버', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '17'},
+{ manufacturer: '쉐보레', year: '20-', name: '트레일블레이저', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '1'},
+{ manufacturer: '쉐보레', year: '19-', name: '트래버스', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '09-', name: '프리마', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '', name: '익스프레스 밴', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '2'},
+{ manufacturer: '쉐보레', year: '2022', name: '타호', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '1'},
+// 쉐보레 END //
+
+// 쌍용 //
+{ manufacturer: '쌍용', year: '06-17', name: '렉스턴', driverWiperSize: '500', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '쌍용', year: '06-17', name: '뉴렉스턴', driverWiperSize: '500', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '쌍용', year: '06-17', name: '렉스턴2', driverWiperSize: '500', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '쌍용', year: '06-17', name: '렉스턴2 유로', driverWiperSize: '500', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '쌍용', year: '06-17', name: '슈퍼 렉스턴', driverWiperSize: '500', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '쌍용', year: '06-17', name: '렉스턴W', driverWiperSize: '500', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '쌍용', year: '17-', name: 'G4 렉스턴', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '쌍용', year: '17-', name: '올 뉴 렉스턴', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '쌍용', year: '18-', name: '렉스턴 스포츠/칸', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '쌍용', year: '04-13', name: '로디우스', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '쌍용', year: '05-11', name: '액티언', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '쌍용', year: '05-11', name: '액티언스포츠', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '쌍용', year: '03-11', name: '뉴체어맨', driverWiperSize: '600(싱글암)', passengerWiperSize: '', adapterNumber: '2'},
+{ manufacturer: '쌍용', year: '03-11', name: '체어맨H', driverWiperSize: '600(싱글암)', passengerWiperSize: '', adapterNumber: '2'},
+{ manufacturer: '쌍용', year: '11-15', name: '체어맨H 뉴클래식A', driverWiperSize: '600(싱글암)', passengerWiperSize: '', adapterNumber: '2'},
+{ manufacturer: '쌍용', year: '11-15', name: '체어맨H 뉴클래식B', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '2'},
+{ manufacturer: '쌍용', year: '08-17', name: '체어맨W', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '쌍용', year: '08-17', name: '뉴체어맨W', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '쌍용', year: '08-17', name: '체어맨W 카이저', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '쌍용', year: '05-11', name: '카이런', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '쌍용', year: '11-19', name: '코란도C', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '쌍용', year: '11-19', name: '코란도C 뉴스타일', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '쌍용', year: '19-', name: '코란도(뷰티풀/리스펙)', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '쌍용', year: '12-18', name: '코란도 스포츠', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '쌍용', year: '13-19', name: '코란도 투리스모', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '쌍용', year: '22-', name: '토레스', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '쌍용', year: '15-', name: '티볼리', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '쌍용', year: '15-', name: '티볼리 에어', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '쌍용', year: '15-', name: '베리 뉴 티볼리', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '2'},
+// 쌍용 END //
+
+// 볼보 //
+{ manufacturer: '볼보', year: '06-13', name: 'C30', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '볼보', year: '21-', name: 'C40', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '볼보', year: '07-13', name: 'C70', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '1'},
+{ manufacturer: '볼보', year: '05-12', name: 'S40', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: '1'},
+{ manufacturer: '볼보', year: '10-18', name: 'S60', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: '1'},
+{ manufacturer: '볼보', year: '18-', name: 'S60', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: 'X'},
+{ manufacturer: '볼보', year: '06-16', name: 'S80', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '1'},
+{ manufacturer: '볼보', year: '16-', name: 'S90', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '볼보', year: '12-20', name: 'V40', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '1'},
+{ manufacturer: '볼보', year: '12-', name: 'V40 CC', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '1'},
+{ manufacturer: '볼보', year: '10-18', name: 'V60', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: '1'},
+{ manufacturer: '볼보', year: '19-', name: 'V60', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: 'X'},
+{ manufacturer: '볼보', year: '16-', name: 'V90', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '볼보', year: '17-', name: 'XC40', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '볼보', year: '08-17', name: 'XC60', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: '1'},
+{ manufacturer: '볼보', year: '17-', name: 'XC60', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: 'X'},
+{ manufacturer: '볼보', year: '07-16', name: 'XC70', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: '1'},
+{ manufacturer: '볼보', year: '05-15', name: 'XC90', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: '볼보', year: '16-', name: 'XC90', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+// 볼보 END //
+
+// 제네시스 //
+{ manufacturer: '제네시스', year: '08-10', name: '제네시스', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '7'},
+{ manufacturer: '제네시스', year: '11-13', name: '제네시스', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '제네시스', year: '13-16', name: '제네시스', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '제네시스', year: '08-16', name: '제네시스 쿠페', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: '제네시스', year: '15-18', name: 'EQ900', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '제네시스', year: '17-', name: 'G70', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '제네시스', year: '16-', name: 'G80', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '제네시스', year: '15-', name: 'G90', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '제네시스', year: '21-', name: 'GV60', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '제네시스', year: '20-', name: 'GV70', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+{ manufacturer: '제네시스', year: '20-', name: 'GV80', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '2'},
+// 제네시스 END //
+
+// 타타대우 //
+{ manufacturer: '타타대우', year: '20-', name: '더쎈', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '2'},
+{ manufacturer: '타타대우', year: '09-', name: '구쎈', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '2'},
+{ manufacturer: '타타대우', year: '09-', name: '맥쎈', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '2'},
+{ manufacturer: '타타대우', year: '04-', name: '프리마', driverWiperSize: '700', passengerWiperSize: '700', adapterNumber: '2'},
+// 타타대우 END //
+
+// 테슬라 //
+{ manufacturer: '테슬라', year: '17-', name: '모델3', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '4'},
+{ manufacturer: '테슬라', year: '12-', name: '모델S', driverWiperSize: '700', passengerWiperSize: '450', adapterNumber: '1'},
+{ manufacturer: '테슬라', year: '21-', name: '모델X', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: 'X'},
+{ manufacturer: '테슬라', year: '20-', name: '모델Y', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '4'},
+{ manufacturer: '테슬라', year: '06-12', name: '로드스터', driverWiperSize: '650', passengerWiperSize: '', adapterNumber: '2'},
+// 테슬라 END //
+
+// 아우디 //
+{ manufacturer: '아우디', year: '10-18', name: 'A1', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '18-', name: 'A1', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '10-18', name: 'S1', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '18-', name: 'S1', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '10-18', name: 'RS1', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '18-', name: 'RS1', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '05-12', name: 'A3', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: '아우디', year: '13-20', name: 'A3', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '20-22', name: 'A3', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '2023', name: 'A3', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: 'X'},
+{ manufacturer: '아우디', year: '05-12', name: 'S3', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: '아우디', year: '13-20', name: 'S3', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '20-22', name: 'S3', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '2023', name: 'S3', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: 'X'},
+{ manufacturer: '아우디', year: '05-12', name: 'RS3', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: '아우디', year: '13-20', name: 'RS3', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '20-22', name: 'RS3', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '2023', name: 'RS3', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: 'X'},
+{ manufacturer: '아우디', year: '09-15', name: 'A4', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '16-', name: 'A4', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '09-15', name: 'S4', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '16-', name: 'S4', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '09-15', name: 'RS4', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '16-', name: 'RS4', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '07-16', name: 'A5', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '17-', name: 'A5', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '07-16', name: 'S5', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '17-', name: 'S5', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '07-16', name: 'RS5', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '17-', name: 'RS5', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '04-11', name: 'A6', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '6'},
+{ manufacturer: '아우디', year: '11-17', name: 'A6', driverWiperSize: '650', passengerWiperSize: '525', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '18-', name: 'A6', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '04-11', name: 'S6', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '6'},
+{ manufacturer: '아우디', year: '11-17', name: 'S6', driverWiperSize: '650', passengerWiperSize: '525', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '18-', name: 'S6', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '04-11', name: 'RS6', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '6'},
+{ manufacturer: '아우디', year: '11-17', name: 'RS6', driverWiperSize: '650', passengerWiperSize: '525', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '18-', name: 'RS6', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '10-17', name: 'A7', driverWiperSize: '600', passengerWiperSize: '525', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '18-', name: 'A7', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: 'X'},
+{ manufacturer: '아우디', year: '10-17', name: 'A7L', driverWiperSize: '600', passengerWiperSize: '525', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '18-', name: 'A7L', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: 'X'},
+{ manufacturer: '아우디', year: '10-17', name: 'S7', driverWiperSize: '600', passengerWiperSize: '525', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '18-', name: 'S7', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: 'X'},
+{ manufacturer: '아우디', year: '10-17', name: 'RS7', driverWiperSize: '600', passengerWiperSize: '525', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '18-', name: 'RS7', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: 'X'},
+{ manufacturer: '아우디', year: '10-18', name: 'A8', driverWiperSize: '650', passengerWiperSize: '525', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '18-', name: 'A8', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: 'X'},
+{ manufacturer: '아우디', year: '10-18', name: 'A8L', driverWiperSize: '650', passengerWiperSize: '525', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '18-', name: 'A8L', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: 'X'},
+{ manufacturer: '아우디', year: '10-18', name: 'S8', driverWiperSize: '650', passengerWiperSize: '525', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '18-', name: 'S8', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: 'X'},
+{ manufacturer: '아우디', year: '10-18', name: 'S8L', driverWiperSize: '650', passengerWiperSize: '525', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '18-', name: 'S8L', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: 'X'},
+{ manufacturer: '아우디', year: '10-18', name: 'RS8', driverWiperSize: '650', passengerWiperSize: '525', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '18-', name: 'RS8', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: 'X'},
+{ manufacturer: '아우디', year: '19-', name: 'E-tron', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '06-14', name: 'TT', driverWiperSize: '550', passengerWiperSize: '500', adapterNumber: '7'},
+{ manufacturer: '아우디', year: '15-23', name: 'TT', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '06-14', name: 'TTS', driverWiperSize: '550', passengerWiperSize: '500', adapterNumber: '7'},
+{ manufacturer: '아우디', year: '15-23', name: 'TTS', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '06-14', name: 'TTRS', driverWiperSize: '550', passengerWiperSize: '500', adapterNumber: '7'},
+{ manufacturer: '아우디', year: '15-23', name: 'TTRS', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '06-15', name: 'R8', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '6'},
+{ manufacturer: '아우디', year: '16-', name: 'R8', driverWiperSize: '525', passengerWiperSize: '600', adapterNumber: '7'},
+{ manufacturer: '아우디', year: '11-18', name: 'Q3', driverWiperSize: '600', passengerWiperSize: '525', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '18-', name: 'Q3', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '11-18', name: 'SQ3', driverWiperSize: '600', passengerWiperSize: '525', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '18-', name: 'SQ3', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '11-18', name: 'RSQ3', driverWiperSize: '600', passengerWiperSize: '525', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '18-', name: 'RSQ3', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '08-17', name: 'Q5', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '17-', name: 'Q5', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '08-17', name: 'SQ5', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '17-', name: 'SQ5', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '08-17', name: 'RSQ5', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '17-', name: 'RSQ5', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '50-15', name: 'Q7', driverWiperSize: '650', passengerWiperSize: '600', adapterNumber: '7'},
+{ manufacturer: '아우디', year: '15-19', name: 'Q7', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '20-', name: 'Q7', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: 'X'},
+{ manufacturer: '아우디', year: '50-15', name: 'SQ7', driverWiperSize: '650', passengerWiperSize: '600', adapterNumber: '7'},
+{ manufacturer: '아우디', year: '15-19', name: 'SQ7', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '20-', name: 'SQ7', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: 'X'},
+{ manufacturer: '아우디', year: '50-15', name: 'RSQ7', driverWiperSize: '650', passengerWiperSize: '600', adapterNumber: '7'},
+{ manufacturer: '아우디', year: '15-19', name: 'RSQ7', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: '아우디', year: '20-', name: 'RSQ7', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: 'X'},
+{ manufacturer: '아우디', year: '18-', name: 'Q8', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: 'X'},
+{ manufacturer: '아우디', year: '18-', name: 'SQ8RSQ8', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: 'X'},
+// 아우디 END //
+
+// 벤츠 //
+{ manufacturer: '벤츠', year: '04-12', name: 'A class 180', driverWiperSize: '550', passengerWiperSize: '650', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '04-12', name: 'A class 200', driverWiperSize: '550', passengerWiperSize: '650', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '13-16', name: 'A class 180', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '13-16', name: 'A class 200', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '13-16', name: 'A class 45AMG', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '16-19', name: 'A class 180', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '16-19', name: 'A class 200', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '16-19', name: 'A class 45AMG', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '19-', name: 'A class 220', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '19-', name: 'A class 220d', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '19-', name: 'A class 250', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '19-', name: 'A class 35AMG', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '19-', name: 'A class 45AMG', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '14-18', name: 'AMG GT GT', driverWiperSize: '500', passengerWiperSize: '500', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '14-18', name: 'AMG GT GTS', driverWiperSize: '500', passengerWiperSize: '500', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '14-18', name: 'AMG GT GTR', driverWiperSize: '500', passengerWiperSize: '500', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '14-18', name: 'AMG GT GTC', driverWiperSize: '500', passengerWiperSize: '500', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '19-', name: 'AMG GT GT', driverWiperSize: '500', passengerWiperSize: '500', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '19-', name: 'AMG GT GTS', driverWiperSize: '500', passengerWiperSize: '500', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '19-', name: 'AMG GT GTR', driverWiperSize: '500', passengerWiperSize: '500', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '19-', name: 'AMG GT GTC', driverWiperSize: '500', passengerWiperSize: '500', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '19-', name: 'AMG GT 4도어 GT43', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '19-', name: 'AMG GT 4도어 GT53', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '19-', name: 'AMG GT 4도어 GT63', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '19-', name: 'AMG GT 4도어 GT63S', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '05-11', name: 'B class 200', driverWiperSize: '550', passengerWiperSize: '650', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '11-15', name: 'B class 200', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '11-15', name: 'B class 200d', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '11-15', name: 'B class 220', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '16-19', name: 'B class 200', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '16-19', name: 'B class 200d', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '16-19', name: 'B class 220', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '19-', name: 'B class 180', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '19-', name: 'B class 200', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '19-', name: 'B class 200d', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '19-', name: 'B class 220d', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '07-13', name: 'C class 200', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '07-13', name: 'C class 220', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '07-13', name: 'C class 230', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '07-13', name: 'C class 250', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '07-13', name: 'C class 280', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '07-13', name: 'C class 300', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '07-13', name: 'C class 320', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '07-13', name: 'C class 350', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '07-13', name: 'C class 63AMG', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '13-14', name: 'C class 200', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '13-14', name: 'C class 220', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '13-14', name: 'C class 230', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '13-14', name: 'C class 250', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '13-14', name: 'C class 280', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '13-14', name: 'C class 300', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '13-14', name: 'C class 320', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '13-14', name: 'C class 350', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '13-14', name: 'C class 63AMG', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '2014', name: 'C class 200', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '2014', name: 'C class 200d', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '2014', name: 'C class 220', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '2014', name: 'C class 220d', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '2014', name: 'C class 250', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '2014', name: 'C class 250d', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '2014', name: 'C class 300', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '2014', name: 'C class 350e', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '2014', name: 'C class 400', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '2014', name: 'C class 450/43/63AMG', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '15-21', name: 'C class 200', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-21', name: 'C class 200d', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-21', name: 'C class 220', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-21', name: 'C class 220d', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-21', name: 'C class 250', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-21', name: 'C class 250d', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-21', name: 'C class 300', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-21', name: 'C class 350e', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-21', name: 'C class 400', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-21', name: 'C class 450/43/63AMG', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '21-', name: 'C class', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '16'},
+{ manufacturer: '벤츠', year: '06-13', name: 'CL 500', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '06-13', name: 'CL 550', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '06-13', name: 'CL 600', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '06-13', name: 'CL 55AMG', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '06-13', name: 'CL 63AMG', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '06-13', name: 'CL 65AMG', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '13-15', name: 'CLA 200', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '13-15', name: 'CLA 200d', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '13-15', name: 'CLA 220', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '13-15', name: 'CLA 250', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '13-15', name: 'CLA 45AMG', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '16-19', name: 'CLA 200', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '16-19', name: 'CLA 200d', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '16-19', name: 'CLA 220', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '16-19', name: 'CLA 250', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '16-19', name: 'CLA 45AMG', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '20-', name: 'CLA 250', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '20-', name: 'CLA 45AMG', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '05-11', name: 'CLS 320', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '05-11', name: 'CLS 350', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '05-11', name: 'CLS 500', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '05-11', name: 'CLS 550', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '05-11', name: 'CLS 55AMG', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '05-11', name: 'CLS 63AMG', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '11-14', name: 'CLS 250', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '11-14', name: 'CLS 250d', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '11-14', name: 'CLS 350', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '11-14', name: 'CLS 350d', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '11-14', name: 'CLS 400', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '11-14', name: 'CLS 500', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '11-14', name: 'CLS 550', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '11-14', name: 'CLS 63AMG', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '14-17', name: 'CLS 250', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '14-17', name: 'CLS 250d', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '14-17', name: 'CLS 350', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '14-17', name: 'CLS 350d', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '14-17', name: 'CLS 400', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '14-17', name: 'CLS 500', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '14-17', name: 'CLS 550', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '14-17', name: 'CLS 63AMG', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '18-', name: 'CLS 300d', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '18-', name: 'CLS 400d', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '18-', name: 'CLS 450', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '18-', name: 'CLS 53AMG', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '12-14', name: 'CLS 슈팅브레이크', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '09-14', name: 'E class 200', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '09-14', name: 'E class 220d', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '09-14', name: 'E class 250', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '09-14', name: 'E class 300', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '09-14', name: 'E class 350', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '09-14', name: 'E class 400', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '09-14', name: 'E class 550', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '09-14', name: 'E class 63AMG', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '14-16', name: 'E class 200', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '14-16', name: 'E class 220d', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '14-16', name: 'E class 250', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '14-16', name: 'E class 300', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '14-16', name: 'E class 350', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '14-16', name: 'E class 400', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '14-16', name: 'E class 550', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '14-16', name: 'E class 63AMG', driverWiperSize: '600', passengerWiperSize: '600', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '16-', name: 'E class 200', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '16-', name: 'E class 220d', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '16-', name: 'E class 250', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '16-', name: 'E class 300', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '16-', name: 'E class 300e', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '16-', name: 'E class 350', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '16-', name: 'E class 350d', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '16-', name: 'E class 400', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '16-', name: 'E class 450', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '16-', name: 'E class 43AMG', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '16-', name: 'E class 53AMG', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '16-', name: 'E class 63AMG', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '21-', name: 'EQA', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '19-', name: 'EQC', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '20-', name: 'EQV', driverWiperSize: '700', passengerWiperSize: '450', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '90-18', name: 'G class(지바겐) 270', driverWiperSize: '400', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '벤츠', year: '90-18', name: 'G class(지바겐) 320', driverWiperSize: '400', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '벤츠', year: '90-18', name: 'G class(지바겐) 350', driverWiperSize: '400', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '벤츠', year: '90-18', name: 'G class(지바겐) 350d', driverWiperSize: '400', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '벤츠', year: '90-18', name: 'G class(지바겐) 500', driverWiperSize: '400', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '벤츠', year: '90-18', name: 'G class(지바겐) 550', driverWiperSize: '400', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '벤츠', year: '90-18', name: 'G class(지바겐) 55AMG', driverWiperSize: '400', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '벤츠', year: '90-18', name: 'G class(지바겐) 63AMG', driverWiperSize: '400', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '벤츠', year: '90-18', name: 'G class(지바겐) 65AMG', driverWiperSize: '400', passengerWiperSize: '400', adapterNumber: '2'},
+{ manufacturer: '벤츠', year: '18-', name: 'G class(지바겐) 400d', driverWiperSize: '425', passengerWiperSize: '425', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '18-', name: 'G class(지바겐) 500', driverWiperSize: '425', passengerWiperSize: '425', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '18-', name: 'G class(지바겐) 63AMG', driverWiperSize: '425', passengerWiperSize: '425', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '07-12', name: 'GL 350', driverWiperSize: '700', passengerWiperSize: '500', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '07-12', name: 'GL 450', driverWiperSize: '700', passengerWiperSize: '500', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '07-12', name: 'GL 500', driverWiperSize: '700', passengerWiperSize: '500', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '07-12', name: 'GL 550', driverWiperSize: '700', passengerWiperSize: '500', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '12-19', name: 'GL 400', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '12-19', name: 'GL 450', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '12-19', name: 'GL 550', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '13-15', name: 'GLA 200', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '13-15', name: 'GLA 200d', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '13-15', name: 'GLA 220', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '13-15', name: 'GLA 250', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '13-15', name: 'GLA 45AMNG', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '15-19', name: 'GLA 200', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-19', name: 'GLA 200d', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-19', name: 'GLA 220', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-19', name: 'GLA 250', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-19', name: 'GLA 45AMNG', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '20-', name: ' GLA 220', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '20-', name: 'GLA 250', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '20-', name: 'GLB 200d', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '20-', name: 'GLB 220', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '20-', name: 'GLB 250', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '20-', name: 'GLB 35AMG', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-22', name: 'GLC 220d', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-22', name: 'GLC 250d', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-22', name: 'GLC 300', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-22', name: 'GLC 300e', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-22', name: 'GLC 350e', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-22', name: 'GLC 43AMG', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-22', name: 'GLC 63AMG', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-19', name: 'GLE 250d', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '15-19', name: 'GLE 350d', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '15-19', name: 'GLE 350', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '15-19', name: 'GLE 450', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '15-19', name: 'GLE 63AMG', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '19-', name: 'GLE 300d', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '19-', name: 'GLE 350d', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '19-', name: 'GLE 400d', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '19-', name: 'GLE 450', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '08-14', name: 'GLK 220', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '08-14', name: 'GLK 250', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '08-14', name: 'GLK 350', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '2015', name: 'GLK 220', driverWiperSize: '550', passengerWiperSize: '475', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '2015', name: 'GLK 250', driverWiperSize: '550', passengerWiperSize: '475', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '2015', name: 'GLK 350', driverWiperSize: '550', passengerWiperSize: '475', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '16-19', name: 'GLS 350d', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '16-19', name: 'GLS 450', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '16-19', name: 'GLS 500', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '16-19', name: 'GLS 550', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: '1'},
+{ manufacturer: '벤츠', year: '20-', name: 'GLS 400d', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '20-', name: 'GLS 580', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '20-', name: 'GLS 600', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '05-11', name: 'ML class 280', driverWiperSize: '650', passengerWiperSize: '525', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '05-11', name: 'ML class 300', driverWiperSize: '650', passengerWiperSize: '525', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '05-11', name: 'ML class 350', driverWiperSize: '650', passengerWiperSize: '525', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '05-11', name: 'ML class 500', driverWiperSize: '650', passengerWiperSize: '525', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '05-11', name: 'ML class 550', driverWiperSize: '650', passengerWiperSize: '525', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '05-11', name: 'ML class 63AMG', driverWiperSize: '650', passengerWiperSize: '525', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '2012', name: 'ML class 280', driverWiperSize: '700', passengerWiperSize: '525', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '2012', name: 'ML class 300', driverWiperSize: '700', passengerWiperSize: '525', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '2012', name: 'ML class 350', driverWiperSize: '700', passengerWiperSize: '525', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '2012', name: 'ML class 500', driverWiperSize: '700', passengerWiperSize: '525', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '2012', name: 'ML class 550', driverWiperSize: '700', passengerWiperSize: '525', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '2012', name: 'ML class 63AMG', driverWiperSize: '700', passengerWiperSize: '525', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '11-19', name: 'ML class 250', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '11-19', name: 'ML class 350', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '11-19', name: 'ML class 63AMG', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '06-15', name: 'R class 280', driverWiperSize: '650', passengerWiperSize: '525', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '06-15', name: 'R class 300', driverWiperSize: '650', passengerWiperSize: '525', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '06-15', name: 'R class 350', driverWiperSize: '650', passengerWiperSize: '525', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '06-15', name: 'R class 500', driverWiperSize: '650', passengerWiperSize: '525', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '06-15', name: 'R class 550', driverWiperSize: '650', passengerWiperSize: '525', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '06-15', name: 'R class 63AMG', driverWiperSize: '650', passengerWiperSize: '525', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '06-13', name: 'S class 420', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '06-13', name: 'S class 350', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '06-13', name: 'S class 400', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '06-13', name: 'S class 450', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '06-13', name: 'S class 500', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '06-13', name: 'S class 550', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '06-13', name: 'S class 600', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '06-13', name: 'S class 55AMG', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '06-13', name: 'S class 63AMG', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '06-13', name: 'S class 65AMG', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '14-', name: 'S class 350', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '14-', name: 'S class 350d', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '14-', name: 'S class 400', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '14-', name: 'S class 400d', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '14-', name: 'S class 450', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '14-', name: 'S class 500', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '14-', name: 'S class 550', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '14-', name: 'S class 560', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '14-', name: 'S class 560e', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '14-', name: 'S class 600', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '14-', name: 'S class 650', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '14-', name: 'S class 65AMG', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '14-', name: 'S class 65AMG', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '21-', name: 'S class 350d', driverWiperSize: '', passengerWiperSize: '', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '21-', name: 'S class 400d', driverWiperSize: '', passengerWiperSize: '', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '21-', name: 'S class 500', driverWiperSize: '', passengerWiperSize: '', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '21-', name: 'S class 580', driverWiperSize: '', passengerWiperSize: '', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '02-12', name: 'SL 300', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '02-12', name: 'SL 350', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '02-12', name: 'SL 500', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '02-12', name: 'SL 550', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '02-12', name: 'SL 55AMG', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '02-12', name: 'SL 600', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '02-12', name: 'SL 63AMG', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '02-12', name: 'SL 65AMG', driverWiperSize: '650', passengerWiperSize: '650', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '12-20', name: 'SL 350', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '12-20', name: 'SL 400', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '12-20', name: 'SL 500', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '12-20', name: 'SL 550', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '12-20', name: 'SL 600', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '12-20', name: 'SL 63AMG', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '12-20', name: 'SL 65AMG', driverWiperSize: '650', passengerWiperSize: '550', adapterNumber: 'X'},
+{ manufacturer: '벤츠', year: '17-20', name: 'SLC 200', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '17-20', name: 'SLC 250', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '17-20', name: 'SLC 43AMG', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '11-16', name: 'SLK 200', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '11-16', name: 'SLK 280', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '11-16', name: 'SLK 300', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '11-16', name: 'SLK 350', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '11-16', name: 'SLK 55AMG', driverWiperSize: '550', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '10-14', name: 'SLS AMG', driverWiperSize: '500', passengerWiperSize: '500', adapterNumber: '3'},
+{ manufacturer: '벤츠', year: '08-18', name: '스프린터', driverWiperSize: '650', passengerWiperSize: '600', adapterNumber: '7'},
+{ manufacturer: '벤츠', year: '19-', name: '스프린터', driverWiperSize: '650', passengerWiperSize: '600', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-', name: 'V class 220d', driverWiperSize: '700', passengerWiperSize: '450', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-', name: 'V class 250d', driverWiperSize: '700', passengerWiperSize: '450', adapterNumber: '11'},
+{ manufacturer: '벤츠', year: '15-', name: 'V class 300d', driverWiperSize: '700', passengerWiperSize: '450', adapterNumber: '11'},
+// 벤츠 END //
+
+// BMW //
+{ manufacturer: 'BMW', year: '04-11', name: '1시리즈 116i', driverWiperSize: '500', passengerWiperSize: '500', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '04-11', name: '1시리즈 118i', driverWiperSize: '500', passengerWiperSize: '500', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '04-11', name: '1시리즈 120d', driverWiperSize: '500', passengerWiperSize: '500', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '04-11', name: '1시리즈 128i', driverWiperSize: '500', passengerWiperSize: '500', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '04-11', name: '1시리즈 M135i', driverWiperSize: '500', passengerWiperSize: '500', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '11-19', name: '1시리즈 118d', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '11-19', name: '1시리즈 120d', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '11-19', name: '1시리즈 M140i', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '19-', name: '1시리즈 118d', driverWiperSize: '650', passengerWiperSize: '425', adapterNumber: '16'},
+{ manufacturer: 'BMW', year: '14-', name: '2시리즈 218d', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '14-', name: '2시리즈 218i', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '14-', name: '2시리즈 220d', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '14-', name: '2시리즈 225d', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '14-', name: '2시리즈 228i', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '14-', name: '2시리즈 230i', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '14-', name: '2시리즈 M235i', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '14-', name: '2시리즈 M240i', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '14-', name: '2시리즈 쿠페', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '14-', name: '2시리즈 카브리올레', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '14-22', name: '2시리즈(액티브) 218d', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '14-22', name: '2시리즈(액티브) 218i', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '14-22', name: '2시리즈(액티브) 220d', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '14-22', name: '2시리즈(액티브) 220i', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '14-', name: '2시리즈(그란투어러)', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '19-', name: '2시리즈(그란쿠페) 218d', driverWiperSize: '650', passengerWiperSize: '425', adapterNumber: '16'},
+{ manufacturer: 'BMW', year: '19-', name: '2시리즈(그란쿠페) 220d', driverWiperSize: '650', passengerWiperSize: '425', adapterNumber: '16'},
+{ manufacturer: 'BMW', year: '19-', name: '2시리즈(그란쿠페) S5M235i', driverWiperSize: '650', passengerWiperSize: '425', adapterNumber: '16'},
+{ manufacturer: 'BMW', year: '16-21', name: 'M2', driverWiperSize: '550', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '05-09', name: '3시리즈', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '3'},
+{ manufacturer: 'BMW', year: '10-12', name: '3시리즈', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '06-09', name: '3시리즈', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '3'},
+{ manufacturer: 'BMW', year: '09-13', name: '3시리즈', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '4'},
+{ manufacturer: 'BMW', year: '18-', name: '3시리즈', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '4'},
+{ manufacturer: 'BMW', year: '09-13', name: '3시리즈 318i', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '09-13', name: '3시리즈 320d', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '09-13', name: '3시리즈 320i', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '09-13', name: '3시리즈 325i', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '09-13', name: '3시리즈 328i', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '09-13', name: '3시리즈 330i', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '09-13', name: '3시리즈 330e', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '12-18', name: '3시리즈 320d', driverWiperSize: '575', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '12-18', name: '3시리즈 320i', driverWiperSize: '575', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '12-18', name: '3시리즈 330i', driverWiperSize: '575', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '12-18', name: '3시리즈 330e', driverWiperSize: '575', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '12-18', name: '3시리즈 M340i', driverWiperSize: '575', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '19-', name: '3시리즈 320d', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '19-', name: '3시리즈 320i', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '19-', name: '3시리즈 330i', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '19-', name: '3시리즈 330e', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '19-', name: '3시리즈 M340i', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '13-15', name: '3시리즈(액티브하이브리드)', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '07-09', name: 'M3', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '3'},
+{ manufacturer: 'BMW', year: '10-12', name: 'M3', driverWiperSize: '600', passengerWiperSize: '400', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '14-20', name: 'M3', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '20-', name: 'M3', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '13-19', name: '3시리즈 GT', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '13-20', name: '4시리즈 420d', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '13-20', name: '4시리즈 420i', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '13-20', name: '4시리즈 428i', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '13-20', name: '4시리즈 430i', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '13-20', name: '4시리즈 435i', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '13-20', name: '4시리즈 M440i', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '20-', name: '4시리즈 420d', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '20-', name: '4시리즈 420i', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '20-', name: '4시리즈 430i', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '20-', name: '4시리즈 M440i', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '14-20', name: 'M4', driverWiperSize: '600', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '03-10', name: '5시리즈 520d', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '03-10', name: '5시리즈 520i', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '03-10', name: '5시리즈 523i', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '03-10', name: '5시리즈 525d', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '03-10', name: '5시리즈 525i', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '03-10', name: '5시리즈 528i', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '03-10', name: '5시리즈 530d', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '03-10', name: '5시리즈 530i', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '03-10', name: '5시리즈 535d', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '03-10', name: '5시리즈 535i', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '03-10', name: '5시리즈 545i', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '03-10', name: '5시리즈 550i', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '10-16', name: '5시리즈 520d', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '10-16', name: '5시리즈 520i', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '10-16', name: '5시리즈 523i', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '10-16', name: '5시리즈 525d', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '10-16', name: '5시리즈 528i', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '10-16', name: '5시리즈 530d', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '10-16', name: '5시리즈 535d', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '10-16', name: '5시리즈 535i', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '10-16', name: '5시리즈 550i', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '17-', name: '5시리즈 520d', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '17-', name: '5시리즈 520i', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '17-', name: '5시리즈 523d', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '17-', name: '5시리즈 530d', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '17-', name: '5시리즈 530e', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '17-', name: '5시리즈 530i', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '17-', name: '5시리즈 540i', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '17-', name: '5시리즈 M550d', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '17-', name: '5시리즈 M550i', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '12-17', name: '5시리즈(액티브 하이브리드)', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '05-10', name: 'M5', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '12-16', name: 'M5', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '18-', name: 'M5', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '10-17', name: '5시리즈 GT', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '03-10', name: '6시리즈 630i', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '03-10', name: '6시리즈 635d', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '03-10', name: '6시리즈 645Ci', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '03-10', name: '6시리즈 650i', driverWiperSize: '600', passengerWiperSize: '550', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '03-18', name: '6시리즈 640d', driverWiperSize: '650', passengerWiperSize: '425', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '03-18', name: '6시리즈 640i', driverWiperSize: '650', passengerWiperSize: '425', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '03-18', name: '6시리즈 650i', driverWiperSize: '650', passengerWiperSize: '425', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '05-10', name: 'M6', driverWiperSize: '600', passengerWiperSize: '575', adapterNumber: '5'},
+{ manufacturer: 'BMW', year: '12-18', name: 'M6', driverWiperSize: '650', passengerWiperSize: '425', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '17-', name: '6시리즈 GT 620d', driverWiperSize: '650', passengerWiperSize: '425', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '17-', name: '6시리즈 GT 630d', driverWiperSize: '650', passengerWiperSize: '425', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '17-', name: '6시리즈 GT 630i', driverWiperSize: '650', passengerWiperSize: '425', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '17-', name: '6시리즈 GT 640i', driverWiperSize: '650', passengerWiperSize: '425', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '08-15', name: '7시리즈 730d', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '08-15', name: '7시리즈 730Ld', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '08-15', name: '7시리즈 740d', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '08-15', name: '7시리즈 740i', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '08-15', name: '7시리즈 740Li', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '08-15', name: '7시리즈 750Ld', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '08-15', name: '7시리즈 750Li', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '08-15', name: '7시리즈 760Li', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '8'},
+{ manufacturer: 'BMW', year: '15-22', name: '7시리즈 730d', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '15-22', name: '7시리즈 730Ld', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '15-22', name: '7시리즈 740d', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '15-22', name: '7시리즈 740Ld', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '15-22', name: '7시리즈 740e', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '15-22', name: '7시리즈 740i', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '15-22', name: '7시리즈 745e', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '15-22', name: '7시리즈 745Le', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '15-22', name: '7시리즈 750Li', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '15-22', name: '7시리즈 M760Li', driverWiperSize: '650', passengerWiperSize: '475', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '2023', name: '7시리즈', driverWiperSize: '650', passengerWiperSize: '450', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '18-', name: '8시리즈 840d', driverWiperSize: '650', passengerWiperSize: '425', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '18-', name: '8시리즈 840i', driverWiperSize: '650', passengerWiperSize: '425', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '18-', name: '8시리즈 M850i', driverWiperSize: '650', passengerWiperSize: '425', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '19-', name: 'M8', driverWiperSize: '650', passengerWiperSize: '425', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '13-22', name: 'i3', driverWiperSize: '700', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: 'BMW', year: '13-22', name: 'i3s', driverWiperSize: '700', passengerWiperSize: '600', adapterNumber: '3'},
+{ manufacturer: 'BMW', year: '14-20', name: 'i8', driverWiperSize: '700', passengerWiperSize: '600', adapterNumber: '3/8'},
+{ manufacturer: 'BMW', year: '08-15', name: 'X1', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '7'},
+{ manufacturer: 'BMW', year: '15-22', name: 'X1', driverWiperSize: '650', passengerWiperSize: '400', adapterNumber: '4'},
+{ manufacturer: 'BMW', year: '18-', name: 'X2', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '15'},
+{ manufacturer: 'BMW', year: '03-10', name: 'X3', driverWiperSize: '550', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: 'BMW', year: '10-17', name: 'X3', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: '3'},
+{ manufacturer: 'BMW', year: '17-', name: 'X3', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: '12'},
+{ manufacturer: 'BMW', year: '14-18', name: 'X4', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: '3'},
+{ manufacturer: 'BMW', year: '18-', name: 'X4', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: '12'},
+{ manufacturer: 'BMW', year: '99-07', name: 'X5', driverWiperSize: '600', passengerWiperSize: '525', adapterNumber: '2'},
+{ manufacturer: 'BMW', year: '06-12', name: 'X5', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '3'},
+{ manufacturer: 'BMW', year: '12-13', name: 'X5', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '13-18', name: 'X5', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: 'BMW', year: '18-', name: 'X5', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '07-12', name: 'X6', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '3'},
+{ manufacturer: 'BMW', year: '12-14', name: 'X6', driverWiperSize: '600', passengerWiperSize: '475', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '14-19', name: 'X6', driverWiperSize: '600', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: 'BMW', year: '19-', name: 'X6', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '18-', name: 'X7', driverWiperSize: '650', passengerWiperSize: '500', adapterNumber: '1'},
+{ manufacturer: 'BMW', year: '02-09', name: 'Z4', driverWiperSize: '525', passengerWiperSize: '500', adapterNumber: '2'},
+{ manufacturer: 'BMW', year: '09-16', name: 'Z4', driverWiperSize: '525', passengerWiperSize: '525', adapterNumber: '2'},
+{ manufacturer: 'BMW', year: '19-', name: 'Z4', driverWiperSize: '550', passengerWiperSize: '525', adapterNumber: '1'},
+// BWM END //
+
+
+
+        // 필요한 만큼 데이터를 추가하세요
+    ];
+
+    // 테이블에 데이터 추가
+    var table = document.getElementById('wiperInfo');
+    for (var i = 0; i < carWiperData.length; i++) {
+        var row = table.insertRow(i + 1);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+        var cell6 = row.insertCell(5);
+        cell1.innerHTML = carWiperData[i].manufacturer;
+        cell2.innerHTML = carWiperData[i].year;
+        cell3.innerHTML = carWiperData[i].name;
+        cell4.innerHTML = carWiperData[i].driverWiperSize;
+        cell5.innerHTML = carWiperData[i].passengerWiperSize;
+        cell6.innerHTML = carWiperData[i].adapterNumber;
+    }
+
+    // 검색 기능
+    function searchFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("wiperInfo");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[2];// 0:제조사검색,1:연식검색,2:모델명 검색 //
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }       
+        }
+    }
+    
+        // 필터 기능
+        function filterFunction(manufacturer) {
+        var table, tr, td, i, txtValue;
+        table = document.getElementById("wiperInfo");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue === manufacturer) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }       
+        }
+    }
+</script>
+
+</body>
+</html>
