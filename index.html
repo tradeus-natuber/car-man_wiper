@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wiper</title>
+<html>
+    <head>
+        <style>
+            .center {
+                margin: auto;
+                width: 48%;
+                padding: 10px;
+                padding-bottom: 30px;
+                background-color: #18457b;
+                border-radius: 20px;
+            }
+            h2 {
+                text-align: center;
+                color: #fff;
+            }
+    
+            table {
+                width: 90%;
+                border-collapse: collapse;
+                margin: 0 auto;
+            }
+            th,
+            td {
+                border: 1px solid rgb(180, 180, 180);
+                padding: 10px;
+                text-align: center;
+                color: #000000;
+            }
+            th {
+                width: 8%;
+            }
+    
+            .center input {
+                width: 350px;
+                height: 32px;
+                font-size: 15px;
+                border: 0;
+                border-radius: 15px;
+                outline: none;
+                padding-left: 10px;
+                background-color: rgb(255, 255, 255);
+                margin-bottom: 20px;
+                display: block;
+                margin: 20px auto;
+                text-align: center;
+            }
+    
+            @media screen and (max-width: 720px) {
+                .center {
+                    width: 100%;
+                    padding: 10px;
+                }
+                table {
+                    width: 100%;
+                    max-width: 100%;
+                    overflow-x: auto;
+                }
+                th,
+                td {
+                    padding: 5px;
+                    white-space: nowrap;
+                }
+                .center input {
+                    width: 90%;
+                }
+            }
+    
+            /* 반응형 웹 디자인을 위한 추가 스타일 */
+            @media screen and (max-width: 480px) {
+                .center {
+                    width: 100%;
+                }
+                table {
+                    width: 100%;
+                    max-width: 100%;
+                    overflow-x: auto;
+                }
+                th,
+                td {
+                    padding: 5px;
+                    white-space: nowrap;
+                    font-size: 12px;
+                }
+                .center input {
+                    width: 90%;
+                    font-size: 12px;
+                }
+            }
+        </style>
+    </head>
+<body>
+
+<div class="center">
+    <h2 onclick="">내 차에 알맞는 와이퍼 찾기</h2>
+
+    <span style="margin: 0 auto;display: block;">
+    <!-- <button onclick="filterFunction('현대')">현대</button>
+    <button onclick="filterFunction('기아')">기아</button>
+    <button onclick="filterFunction('쉐보레')">쉐보레</button> -->
+    <!-- 필요한 만큼 제조사 필터 버튼을 추가하세요 -->
+    </span>
+
+<span class="textbox">
+    <input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="차량명으로 검색">
+</span>
+<div style="overflow:scroll;height: 470px;width: 95%;background-color: #fff;margin: 0 auto;padding-top: 20px;">
+    <table id="wiperInfo">
+        <tr>
+            <th>제조사</th>
+            <th>연식</th>
+            <th>차량명</th>
+            <th>모델명</th>
+            <th>운전석</th>
+            <th>조수석</th>
+            <th style="width: 5%;">어댑터</th>
+        </tr>
+        <!-- 자바스크립트로 정보를 추가할 예정입니다 -->
+    </table>
+</div>
+</div>
+
+<script>
+    // 자동차 와이퍼 정보 데이터
+    var carWiperData = [
+{ manufacturer: '기아', year: '16-24', name: '니로',carModel: 'DE', driverWiperSize: '18인치', passengerWiperSize: '16인치', adapterNumber: '1번'},
+{ manufacturer: '기아', year: '04-11', name: '뉴 모닝',carModel: 'SA', driverWiperSize: '20인치', passengerWiperSize: '18인치', adapterNumber: '2번' },
+{ manufacturer: '현대', year: '91-03', name: '갤로퍼',carModel: 'M', driverWiperSize: '20인치', passengerWiperSize: '18인치', adapterNumber: '3번' },
+{ manufacturer: '현대', year: '11-16', name: '그랜저',carModel: 'HG', driverWiperSize: '20인치', passengerWiperSize: '18인치', adapterNumber: '4번' },
+{ manufacturer: '제네시스', year: '08-16', name: '쿠페',carModel: 'BK', driverWiperSize: '20인치', passengerWiperSize: '18인치', adapterNumber: '4번' },
+{ manufacturer: '쉐보레', year: '09-11', name: '마티즈',carModel: 'M300', driverWiperSize: '20인치', passengerWiperSize: '18인치', adapterNumber: '4번' },
+{ manufacturer: '쉐보레', year: '11-16', name: '말리부',carModel: 'V300', driverWiperSize: '20인치', passengerWiperSize: '18인치', adapterNumber: '4번' },
+{ manufacturer: '쉐보레', year: '09-15', name: '스파크',carModel: 'M300', driverWiperSize: '20인치', passengerWiperSize: '18인치', adapterNumber: '4번' },
+{ manufacturer: '쉐보레', year: '09-15', name: '스파크',carModel: 'M350', driverWiperSize: '20인치', passengerWiperSize: '18인치', adapterNumber: '4번' },
+{ manufacturer: '벤츠', year: '15-19', name: 'GLA',carModel: 'X156', driverWiperSize: '20인치', passengerWiperSize: '18인치', adapterNumber: '4번' },
+{ manufacturer: '벤츠', year: '05-11', name: 'ML class',carModel: 'W164', driverWiperSize: '20인치', passengerWiperSize: '18인치', adapterNumber: '4번' },
+
+
+        // 필요한 만큼 데이터를 추가하세요
+    ];
+
+    // 테이블에 데이터 추가
+    var table = document.getElementById('wiperInfo');
+    for (var i = 0; i < carWiperData.length; i++) {
+        var row = table.insertRow(i + 1);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+        var cell6 = row.insertCell(5);
+        var cell7 = row.insertCell(6);
+        cell1.innerHTML = carWiperData[i].manufacturer;
+        cell2.innerHTML = carWiperData[i].year;
+        cell3.innerHTML = carWiperData[i].name;
+        cell4.innerHTML = carWiperData[i].carModel;
+        cell5.innerHTML = carWiperData[i].driverWiperSize;
+        cell6.innerHTML = carWiperData[i].passengerWiperSize;
+        cell7.innerHTML = carWiperData[i].adapterNumber;
+    }
+
+    // 검색 기능
+    function searchFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("wiperInfo");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[2];// 0:제조사검색,1:연식검색,2:모델명 검색 //
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }       
+        }
+    }
+    
+        // 필터 기능
+        function filterFunction(manufacturer) {
+        var table, tr, td, i, txtValue;
+        table = document.getElementById("wiperInfo");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue === manufacturer) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }       
+        }
+    }
+</script>
+
+</body>
+</html>
