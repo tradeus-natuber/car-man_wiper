@@ -4,93 +4,95 @@
 <title>Wiper</title>
 <html>
     <head>
-        <style>
+    <style>
+        .center {
+            margin: auto;
+            width: 100%; /* 수정된 부분 */
+            padding: 10px;
+            padding-bottom: 30px;
+            background-color: #18457b;
+            border-radius: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #fff;
+        }
+
+        table {
+            width: 100%; /* 수정된 부분 */
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+        th,
+        td {
+            border: 1px solid rgb(180, 180, 180);
+            padding: 10px;
+            text-align: center;
+            color: #000000;
+        }
+        th {
+            width: 8%;
+        }
+
+        .center input {
+            width: 90%;
+            height: 32px;
+            font-size: 15px;
+            border: 0;
+            border-radius: 15px;
+            outline: none;
+            padding-left: 10px;
+            background-color: rgb(255, 255, 255);
+            margin-bottom: 20px;
+            display: block;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        @media screen and (max-width: 720px) {
             .center {
-                margin: auto;
-                width: 48%;
                 padding: 10px;
-                padding-bottom: 30px;
-                background-color: #18457b;
-                border-radius: 20px;
             }
-            h2 {
-                text-align: center;
-                color: #fff;
-            }
-    
             table {
-                width: 90%;
-                border-collapse: collapse;
-                margin: 0 auto;
-                overflow-x: auto; /* 수정된 부분 */
+                width: 100%;
+                max-width: 100%;
+                overflow-x: auto;
             }
             th,
             td {
-                border: 1px solid rgb(180, 180, 180);
-                padding: 10px;
-                text-align: center;
-                color: #000000;
+                padding: 5px;
+                white-space: nowrap;
+                font-size: 12px;
             }
-            th {
-                width: 8%;
-            }
-    
             .center input {
-                width: 350px;
-                height: 32px;
-                font-size: 15px;
-                border: 0;
-                border-radius: 15px;
-                outline: none;
-                padding-left: 10px;
-                background-color: rgb(255, 255, 255);
-                margin-bottom: 20px;
-                display: block;
-                margin: 20px auto;
-                text-align: center;
+                width: 90%;
+                font-size: 12px;
             }
-    
-            @media screen and (max-width: 720px) {
-                .center {
-                    width: 100%;
-                    padding: 10px;
-                }
-                table {
-                    width: 100%;
-                    max-width: 100%;
-                }
-                th,
-                td {
-                    padding: 5px;
-                    white-space: nowrap;
-                }
-                .center input {
-                    width: 90%;
-                }
+        }
+
+        /* 반응형 웹 디자인을 위한 추가 스타일 */
+        @media screen and (max-width: 480px) {
+            .center {
+                padding: 10px;
             }
-    
-            /* 반응형 웹 디자인을 위한 추가 스타일 */
-            @media screen and (max-width: 480px) {
-                .center {
-                    width: 100%;
-                }
-                table {
-                    width: 100%;
-                    max-width: 100%;
-                }
-                th,
-                td {
-                    padding: 5px;
-                    white-space: nowrap;
-                    font-size: 12px;
-                }
-                .center input {
-                    width: 90%;
-                    font-size: 12px;
-                }
+            table {
+                width: 100%;
+                max-width: 100%;
+                overflow-x: auto;
             }
-        </style>
-    </head>
+            th,
+            td {
+                padding: 5px;
+                white-space: nowrap;
+                font-size: 12px;
+            }
+            .center input {
+                width: 90%;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
 <body>
 
 <div class="center">
